@@ -4,9 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aldrin John & Sharmaine | Wedding Invitation</title>
-
-  <!-- Main Styles -->
-  <link rel="stylesheet" href="css/style.css" />
+  
+  <!-- SEO & Social Sharing -->
+  <meta name="description" content="Wedding Invitation of Aldrin John & Sharmaine on June 20, 2027. Celebrate our special day!">
+  <meta property="og:title" content="Aldrin John & Sharmaine | Wedding Invitation">
+  <meta property="og:description" content="Join us in celebrating our special day on June 20, 2027!">
+  <meta property="og:image" content="assets/cover.jpg">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
 
   <!-- Google Fonts -->
   <link
@@ -14,36 +19,32 @@
     rel="stylesheet"
   />
 
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+
   <!-- AOS Animations -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- =========================
-    HASHTAG
-  ========================= -->
+  <!-- HASHTAG -->
   <div id="hashtag">#AldrinFoundHisMaine</div>
 
-  <!-- =========================
-    NAVIGATION
-  ========================= -->
-  <nav class="nav" id="navBar">
+  <!-- NAVIGATION -->
+  <nav class="nav" aria-label="Main navigation">
     <div class="nav-brand">A & S</div>
-    <ul id="navMenu">
+    <ul>
       <li><a href="#hero">Home</a></li>
       <li><a href="#story">Story</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#rsvp">RSVP</a></li>
       <li><a href="#gallery">Gallery</a></li>
-   
     </ul>
   </nav>
 
-  <!-- =========================
-    HERO SECTION
-  ========================= -->
+  <!-- HERO SECTION -->
   <section id="hero">
-    <video autoplay muted loop playsinline id="bgVideo">
+    <video autoplay muted loop playsinline id="bgVideo" poster="assets/video-fallback.jpg">
       <source src="assets/video.mp4" type="video/mp4" />
     </video>
 
@@ -52,30 +53,28 @@
       <p>We invite you to celebrate our wedding</p>
       <p><strong>June 20, 2027</strong></p>
 
-      <!-- Countdown -->
       <div id="countdown"></div>
 
-      <button onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">
+      <button type="button" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">
         View Details
       </button>
     </div>
   </section>
 
-  <!-- =========================
-    STORY
-  ========================= -->
-  <section id="story" data-aos="fade-up">
-    <h2>Our Story</h2>
-    <p>
-      Our journey together began with love, laughter, and countless shared memories.
-      Through every season, every challenge, and every joy — we chose each other.
-    </p>
-    <div class="placeholder">Story Image Placeholder</div>
-  </section>
+ <!-- STORY SECTION -->
+<section id="story" data-aos="fade-up">
+  <h2>Our Story</h2>
+  <p>
+    Our journey together began with love, laughter, and countless shared memories.
+    Through every season, every challenge, and every joy — we chose each other.
+  </p>
+  <figure data-aos="zoom-in">
+    <img src="https://via.placeholder.com/600x400/9b59b6/ffffff?text=Our+Story" alt="Our Story Image" loading="lazy" />
+    <figcaption>Story Image</figcaption>
+  </figure>
+</section>
 
-  <!-- =========================
-    DETAILS
-  ========================= -->
+  <!-- DETAILS SECTION -->
   <section id="details" data-aos="fade-up">
     <h2>Wedding Details</h2>
     <p><strong>Date:</strong> June 20, 2027</p>
@@ -91,26 +90,20 @@
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.430148297455!2d121.03744291528824!3d14.477099086058796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397cfa9f6d78d7d%3A0x4f91183a6be3af0c!2sMary%2C%20Mother%20of%20Good%20Counsel%20Parish%20Church!5e0!3m2!1sen!2sph!4v1705720000000"
         width="100%"
         height="300"
-        style="border:0"
+        style="border:0; border-radius:14px;"
         allowfullscreen
         loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
       ></iframe>
     </div>
   </section>
 
-  <!-- =========================
-    RSVP
-  ========================= -->
+  <!-- RSVP SECTION -->
   <section id="rsvp" data-aos="fade-up">
     <h2>RSVP</h2>
     <p>Please let us know if you can join our special day 💜</p>
 
-    <form
-      class="rsvp-form"
-      action="https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"
-      method="POST"
-      target="_blank"
-    >
+    <form class="rsvp-form" action="https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse" method="POST" target="_blank">
       <input type="text" name="entry.1111111111" placeholder="Your Full Name" required />
       <select id="attendance" name="entry.2222222222" required>
         <option value="" disabled selected>Will you be attending?</option>
@@ -124,51 +117,56 @@
 
     <p class="note">Your response will be recorded privately.</p>
   </section>
+<!-- GALLERY SECTION -->
+<section id="gallery" data-aos="fade-up">
+  <h2>Memories</h2>
+  <div class="gallery-grid">
+    <figure data-aos="zoom-in">
+      <img src="https://via.placeholder.com/400x400/c39aff/2c003e?text=Memory+1" alt="Memory 1" loading="lazy" />
+      <figcaption>Photo 1</figcaption>
+    </figure>
+    <figure data-aos="zoom-in" data-aos-delay="100">
+      <img src="https://via.placeholder.com/400x400/c39aff/2c003e?text=Memory+2" alt="Memory 2" loading="lazy" />
+      <figcaption>Photo 2</figcaption>
+    </figure>
+    <figure data-aos="zoom-in" data-aos-delay="200">
+      <img src="https://via.placeholder.com/400x400/c39aff/2c003e?text=Memory+3" alt="Memory 3" loading="lazy" />
+      <figcaption>Photo 3</figcaption>
+    </figure>
+    <figure data-aos="zoom-in" data-aos-delay="300">
+      <img src="https://via.placeholder.com/400x400/c39aff/2c003e?text=Memory+4" alt="Memory 4" loading="lazy" />
+      <figcaption>Photo 4</figcaption>
+    </figure>
+  </div>
+</section>
 
-  <!-- =========================
-    GALLERY
-  ========================= -->
-  <section id="gallery" data-aos="fade-up">
-    <h2>Memories</h2>
-    <div class="gallery-grid">
-      <div class="placeholder" data-aos="zoom-in">Photo 1</div>
-      <div class="placeholder" data-aos="zoom-in" data-aos-delay="100">Photo 2</div>
-      <div class="placeholder" data-aos="zoom-in" data-aos-delay="200">Photo 3</div>
-      <div class="placeholder" data-aos="zoom-in" data-aos-delay="300">Photo 4</div>
-    </div>
-  </section>
+<!-- THANK YOU SECTION -->
+<section id="thankyou" data-aos="fade-up">
+  <h2>Thank You</h2>
+  <p>
+    From the bottom of our hearts, thank you for being part of our journey.
+    Whether near or far, your love and prayers mean the world to us.
+  </p>
+  <p>We can’t wait to celebrate this special day with you 🤍</p>
+  <figure>
+    <img src="https://via.placeholder.com/600x400/9b59b6/ffffff?text=Thank+You" alt="Thank You Image" loading="lazy" />
+    <figcaption>Thank You</figcaption>
+  </figure>
+</section>
 
-  <!-- =========================
-    THANK YOU
-  ========================= -->
-  <section id="thankyou" data-aos="fade-up">
-    <h2>Thank You</h2>
-    <p>
-      From the bottom of our hearts, thank you for being part of our journey.
-      Whether near or far, your love and prayers mean the world to us.
-    </p>
-    <p>We can’t wait to celebrate this special day with you 🤍</p>
-    <div class="placeholder">Thank You Image Placeholder</div>
-  </section>
+  <!-- SCROLL TO TOP BUTTON -->
+  <button id="scrollTopBtn" title="Go to top" aria-label="Scroll to top">↑</button>
 
-  <!-- =========================
-    SCROLL TO TOP BUTTON
-  ========================= -->
-  <button id="scrollTopBtn" title="Go to top">↑</button>
-
-  <!-- =========================
-    FOOTER
-  ========================= -->
+  <!-- FOOTER -->
   <footer>
     <p>Contact us: <a href="mailto:example@email.com">example@email.com</a></p>
     <p>&copy; 2027 Aldrin John & Sharmaine Wedding</p>
   </footer>
 
-  <!-- =========================
-    SCRIPTS
-  ========================= -->
+  <!-- SCRIPTS -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="js/main.js"></script>
   <script src="js/countdown.js"></script>
+
 </body>
 </html>

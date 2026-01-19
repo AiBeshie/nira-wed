@@ -4,17 +4,14 @@
 AOS.init({ duration: 1000, once: true });
 
 // ===========================
-// NAVIGATION STICKY HORIZONTAL
+// NAVIGATION SHADOW ON SCROLL
 // ===========================
 const nav = document.querySelector(".nav");
 
-// Optional: Add subtle shadow when scrolling
 window.addEventListener("scroll", () => {
-  if (window.scrollY > 20) {
-    nav.style.boxShadow = "0 4px 15px rgba(0,0,0,0.3)";
-  } else {
-    nav.style.boxShadow = "none";
-  }
+  nav.style.boxShadow = window.scrollY > 20
+    ? "0 4px 15px rgba(0,0,0,0.3)"
+    : "none";
 });
 
 // ===========================
@@ -40,21 +37,35 @@ attendanceSelect?.addEventListener("change", (e) => {
 });
 
 function launchConfetti() {
-  for (let i = 0; i < 30; i++) {
+  const confettiCount = 30;
+  for (let i = 0; i < confettiCount; i++) {
     const conf = document.createElement("div");
     conf.className = "confetti";
-    conf.style.left = Math.random() * 100 + "vw";
+    conf.style.left = `${Math.random() * 100}vw`;
     conf.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
+    conf.style.position = "fixed";
+    conf.style.width = "8px";
+    conf.style.height = "8px";
+    conf.style.borderRadius = "50%";
+    conf.style.zIndex = 9999;
     document.body.appendChild(conf);
+
+    conf.animate(
+      [
+        { transform: `translateY(0px) rotate(0deg)`, opacity: 1 },
+        { transform: `translateY(300px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+      ],
+      { duration: 2000, easing: "ease-out", fill: "forwards" }
+    );
+
     setTimeout(() => conf.remove(), 2000);
   }
 }
 
 // ===========================
-// COUNTDOWN WITH SMOOTH ANIMATION
+// COUNTDOWN TIMER
 // ===========================
 const countdown = document.getElementById("countdown");
-
 countdown.innerHTML = `
   <span id="days" class="count-part"></span>d 
   <span id="hours" class="count-part"></span>h 
@@ -75,31 +86,35 @@ function updateCountdown() {
   const now = Date.now();
   const distance = weddingDate - now;
 
-  if (distance < 0) {
-    countdown.innerHTML = "The big day is here!";
+  if (distance <= 0) {
+    countdown.textContent = "The big day is here!";
     return;
   }
 
-  const newValues = {
+  const timeValues = {
     days: Math.floor(distance / (1000 * 60 * 60 * 24)),
     hours: Math.floor((distance / (1000 * 60 * 60)) % 24),
     minutes: Math.floor((distance / (1000 * 60)) % 60),
     seconds: Math.floor((distance / 1000) % 60)
   };
 
-  for (let key in newValues) {
-    if (parts[key].innerText != newValues[key]) {
-      parts[key].classList.remove("fade-in");
-      parts[key].classList.add("fade-out");
+  for (let key in timeValues) {
+    const el = parts[key];
+    const value = timeValues[key].toString().padStart(2, "0");
+
+    if (el.innerText !== value) {
+      el.classList.remove("fade-in");
+      el.classList.add("fade-out");
 
       setTimeout(() => {
-        parts[key].innerText = newValues[key].toString().padStart(2, "0");
-        parts[key].classList.remove("fade-out");
-        parts[key].classList.add("fade-in");
+        el.innerText = value;
+        el.classList.remove("fade-out");
+        el.classList.add("fade-in");
       }, 200);
     }
   }
 }
 
+// Initial call + interval
 updateCountdown();
 setInterval(updateCountdown, 1000);
