@@ -1,80 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aldrin John & Sharmaine Wedding</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aldrin John & Sharmaine | Wedding Invitation</title>
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css">
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="css/style.css" />
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto&display=swap"
+    rel="stylesheet"
+  />
 
-  <!-- AOS Animation Library -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <!-- AOS Animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- HERO / Welcome Section -->
+  <!-- =========================
+    HASHTAG
+  ========================= -->
+  <div id="hashtag">#AldrinFoundHisMaine</div>
+
+  <!-- =========================
+    NAVIGATION
+  ========================= -->
+  <nav class="nav" id="navBar">
+    <div class="nav-brand">A & S</div>
+    <ul id="navMenu">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#story">Story</a></li>
+      <li><a href="#details">Details</a></li>
+      <li><a href="#rsvp">RSVP</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+   
+    </ul>
+  </nav>
+
+  <!-- =========================
+    HERO SECTION
+  ========================= -->
   <section id="hero">
-    <video autoplay muted loop id="bgVideo">
-      <source src="assets/video.mp4" type="video/mp4">
+    <video autoplay muted loop playsinline id="bgVideo">
+      <source src="assets/video.mp4" type="video/mp4" />
     </video>
+
     <div class="hero-content" data-aos="fade-up">
       <h1>Aldrin John & Sharmaine</h1>
       <p>We invite you to celebrate our wedding</p>
       <p><strong>June 20, 2027</strong></p>
 
-      <!-- Countdown Timer -->
+      <!-- Countdown -->
       <div id="countdown"></div>
 
-      <!-- Optional Button -->
-      <button onclick="window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });">
+      <button onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">
         View Details
       </button>
     </div>
   </section>
 
-  <!-- Couple Story -->
+  <!-- =========================
+    STORY
+  ========================= -->
   <section id="story" data-aos="fade-up">
     <h2>Our Story</h2>
-    <p>Our journey together began with love, laughter, and countless shared memories. From our first meeting to this special day, every moment has led us here.</p>
-    <div class="placeholder" style="height:200px;">Story Image Placeholder</div>
+    <p>
+      Our journey together began with love, laughter, and countless shared memories.
+      Through every season, every challenge, and every joy — we chose each other.
+    </p>
+    <div class="placeholder">Story Image Placeholder</div>
   </section>
 
-  <!-- Event Details -->
+  <!-- =========================
+    DETAILS
+  ========================= -->
   <section id="details" data-aos="fade-up">
     <h2>Wedding Details</h2>
     <p><strong>Date:</strong> June 20, 2027</p>
     <p><strong>Time:</strong> 2:00 PM</p>
-    <p><strong>Venue:</strong> Mary, Mother of Good Counsel Parish Church – Marcelo Green Village, Parañaque City</p>
+    <p>
+      <strong>Venue:</strong><br />
+      Mary, Mother of Good Counsel Parish Church<br />
+      Marcelo Green Village, Parañaque City
+    </p>
 
-    <!-- Google Maps Embed -->
     <div class="map-container">
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.430148297455!2d121.03744291528824!3d14.477099086058796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397cfa9f6d78d7d%3A0x4f91183a6be3af0c!2sMary%2C%20Mother%20of%20Good%20Counsel%20Parish%20Church%20-%20Marcelo%20Green%20Village%2C%20Paranaque%20City%20(Diocese%20of%20Paranaque)!5e0!3m2!1sen!2sph!4v1705720000000!5m2!1sen!2sph"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.430148297455!2d121.03744291528824!3d14.477099086058796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397cfa9f6d78d7d%3A0x4f91183a6be3af0c!2sMary%2C%20Mother%20of%20Good%20Counsel%20Parish%20Church!5e0!3m2!1sen!2sph!4v1705720000000"
         width="100%"
         height="300"
-        style="border:0;"
-        allowfullscreen=""
+        style="border:0"
+        allowfullscreen
         loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
+      ></iframe>
     </div>
   </section>
 
-  <!-- RSVP Section -->
+  <!-- =========================
+    RSVP
+  ========================= -->
   <section id="rsvp" data-aos="fade-up">
     <h2>RSVP</h2>
-    <iframe 
-      src="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true" 
-      width="100%" height="900" frameborder="0" marginheight="0" marginwidth="0">
-    </iframe>
-    <p>If the form doesn't load below, click <a href="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform" target="_blank">here</a> to RSVP.</p>
+    <p>Please let us know if you can join our special day 💜</p>
+
+    <form
+      class="rsvp-form"
+      action="https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"
+      method="POST"
+      target="_blank"
+    >
+      <input type="text" name="entry.1111111111" placeholder="Your Full Name" required />
+      <select id="attendance" name="entry.2222222222" required>
+        <option value="" disabled selected>Will you be attending?</option>
+        <option value="Accepts with pleasure">Accepts with pleasure 💜</option>
+        <option value="Not sure yet">Not sure yet 🤍</option>
+        <option value="Regretfully declines">Regretfully declines 😔</option>
+      </select>
+      <textarea name="entry.3333333333" rows="4" placeholder="Leave a message for the couple..."></textarea>
+      <button type="submit">Send RSVP</button>
+    </form>
+
+    <p class="note">Your response will be recorded privately.</p>
   </section>
 
-  <!-- Gallery / Memories -->
+  <!-- =========================
+    GALLERY
+  ========================= -->
   <section id="gallery" data-aos="fade-up">
     <h2>Memories</h2>
     <div class="gallery-grid">
@@ -85,22 +138,37 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer data-aos="fade-up">
+  <!-- =========================
+    THANK YOU
+  ========================= -->
+  <section id="thankyou" data-aos="fade-up">
+    <h2>Thank You</h2>
+    <p>
+      From the bottom of our hearts, thank you for being part of our journey.
+      Whether near or far, your love and prayers mean the world to us.
+    </p>
+    <p>We can’t wait to celebrate this special day with you 🤍</p>
+    <div class="placeholder">Thank You Image Placeholder</div>
+  </section>
+
+  <!-- =========================
+    SCROLL TO TOP BUTTON
+  ========================= -->
+  <button id="scrollTopBtn" title="Go to top">↑</button>
+
+  <!-- =========================
+    FOOTER
+  ========================= -->
+  <footer>
     <p>Contact us: <a href="mailto:example@email.com">example@email.com</a></p>
     <p>&copy; 2027 Aldrin John & Sharmaine Wedding</p>
   </footer>
 
-  <!-- Scripts -->
+  <!-- =========================
+    SCRIPTS
+  ========================= -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    AOS.init({
-      duration: 1000,
-      once: true
-    });
-  </script>
-
-  <!-- Countdown Timer -->
+  <script src="js/main.js"></script>
   <script src="js/countdown.js"></script>
 </body>
 </html>

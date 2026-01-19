@@ -26,11 +26,36 @@ body {
 }
 
 /* ------------------ */
+/* Hashtag Banner     */
+/* ------------------ */
+#hashtag {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  background: rgba(142, 69, 133, 0.95);
+  color: var(--soft-white);
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 8px 0;
+  z-index: 1000;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  animation: fadeInDown 1s ease forwards;
+}
+
+/* Hashtag animation */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------ */
 /* Hero Section       */
 /* ------------------ */
 #hero {
   text-align: center;
-  padding: 100px 20px;
+  padding: 120px 20px 100px; /* add top padding for hashtag */
   position: relative;
   overflow: hidden;
   min-height: 100vh;
@@ -135,16 +160,24 @@ button:hover {
 /* Responsive         */
 /* ------------------ */
 @media (max-width: 600px) {
+  #hashtag {
+    font-size: 0.9rem;
+    padding: 6px 0;
+  }
+
   #hero .hero-content h1 {
     font-size: 2.2rem;
   }
+
   #hero .hero-content p {
     font-size: 1rem;
   }
+
   #countdown {
     font-size: 1.2rem;
     padding: 12px 20px;
   }
+
   button {
     padding: 12px 25px;
     font-size: 1rem;
