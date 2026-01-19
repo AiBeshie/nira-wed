@@ -1,0 +1,96 @@
+/* ------------------ */
+/* Theme Colors       */
+/* ------------------ */
+:root {
+  --primary-lavender: #C8A2C8;
+  --primary-plum: #8E4585;
+  --primary-lilac: #D8BFD8;
+  --accent-gold: #D4AF37;
+  --soft-white: #FFF8F0;
+  --text-dark: #2E2E2E;
+}
+
+/* ------------------ */
+/* Body / Background  */
+/* ------------------ */
+body {
+  font-family: 'Lato', sans-serif;
+  background: linear-gradient(to bottom, #E6D6F0, #F3E8FA);
+  color: var(--text-dark);
+  margin: 0;
+  padding: 0;
+}
+
+/* ------------------ */
+/* Hero Section       */
+/* ------------------ */
+#hero {
+  text-align: center;
+  padding: 80px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+#hero .hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  color: var(--primary-plum);
+  margin-bottom: 10px;
+}
+
+#hero .hero-content p {
+  font-size: 1.25rem;
+  color: var(--primary-lavender);
+}
+
+/* ------------------ */
+/* Countdown Timer    */
+/* ------------------ */
+#countdown {
+  font-size: 1.5rem;
+  background: var(--soft-white);
+  color: var(--primary-plum);
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+#countdown:hover {
+  transform: scale(1.05);
+}
+
+/* ------------------ */
+/* Buttons            */
+/* ------------------ */
+button {
+  background-color: var(--primary-plum);
+  color: var(--soft-white);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--primary-lavender);
+  color: var(--accent-gold);
+  transform: translateY(-2px);
+}
+
+/* ------------------ */
+/* Confetti Container */
+#confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9999;
+}
