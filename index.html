@@ -3,122 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aldrin John & Sharmaine Wedding</title>
+  <title>Wedding Invitation</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
-
-  <!-- AOS Animation Library -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/invitation.css">
 </head>
 <body>
-
-  <!-- HERO / Welcome Section -->
+  <!-- Invitation Hero Section -->
   <section id="hero">
-    <video autoplay muted loop id="bgVideo">
-      <source src="assets/video.mp4" type="video/mp4">
-    </video>
-    <div class="hero-content" data-aos="fade-up">
-      <h1>Aldrin John & Sharmaine</h1>
-      <p>We invite you to celebrate our wedding</p>
-      <p><strong>June 20, 2027</strong></p>
+    <div class="hero-content">
+      <h1>[Bride & Groom Names]</h1>
+      <p>Invite you to celebrate our wedding</p>
+
       <div id="countdown"></div>
+
+      <button onclick="window.location.href='home.html'">Open Invitation</button>
     </div>
+
+    <!-- Confetti Container -->
+    <div id="confetti"></div>
   </section>
-
-  <!-- Couple Story -->
-  <section id="story" data-aos="fade-up">
-    <h2>Our Story</h2>
-    <p>Our journey together began with… (sample story text)</p>
-    <div class="placeholder" style="height:200px;">Story Image Placeholder</div>
-  </section>
-
-  <!-- Event Details -->
-  <section id="details" data-aos="fade-up">
-    <h2>Wedding Details</h2>
-    <p><strong>Date:</strong> June 20, 2027</p>
-    <p><strong>Time:</strong> 2:00 PM</p>
-    <p><strong>Venue:</strong> Mary, Mother of Good Counsel Parish Church – Marcelo Green Village, Parañaque City</p>
-
-    <!-- Google Maps Embed -->
-    <div class="map-container">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.430148297455!2d121.03744291528824!3d14.477099086058796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397cfa9f6d78d7d%3A0x4f91183a6be3af0c!2sMary%2C%20Mother%20of%20Good%20Counsel%20Parish%20Church%20-%20Marcelo%20Green%20Village%2C%20Paranaque%20City%20(Diocese%20of%20Paranaque)!5e0!3m2!1sen!2sph!4v1705720000000!5m2!1sen!2sph"
-        width="100%"
-        height="300"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
-    </div>
-  </section>
-
-  <!-- RSVP Section -->
-  <section id="rsvp" data-aos="fade-up">
-    <h2>RSVP</h2>
-    <iframe 
-      src="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true" 
-      width="100%" height="900" frameborder="0" marginheight="0" marginwidth="0">
-    </iframe>
-    <p>If the form doesn't load below, click <a href="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform" target="_blank">here</a> to RSVP.</p>
-  </section>
-
-  <!-- Gallery / Memories -->
-  <section id="gallery" data-aos="fade-up">
-    <h2>Memories</h2>
-    <div class="gallery-grid">
-      <div class="placeholder" data-aos="zoom-in">Photo 1</div>
-      <div class="placeholder" data-aos="zoom-in" data-aos-delay="100">Photo 2</div>
-      <div class="placeholder" data-aos="zoom-in" data-aos-delay="200">Photo 3</div>
-      <div class="placeholder" data-aos="zoom-in" data-aos-delay="300">Photo 4</div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer data-aos="fade-up">
-    <p>Contact us: <a href="mailto:example@email.com">example@email.com</a></p>
-    <p>&copy; 2027 Aldrin John & Sharmaine Wedding</p>
-  </footer>
 
   <!-- Scripts -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    AOS.init({
-      duration: 1000,
-      once: true
-    });
-  </script>
-
-  <!-- Countdown Timer -->
-  <script>
-    const countdownElement = document.getElementById('countdown');
-    function updateCountdown() {
-      const weddingDate = new Date("June 20, 2027 14:00:00").getTime();
-      const now = new Date().getTime();
-      const distance = weddingDate - now;
-
-      if (distance < 0) {
-        countdownElement.innerText = "We're Married!";
-        return;
-      }
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      countdownElement.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s until the wedding!`;
-    }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-  </script>
-
-  <!-- Optional custom JS -->
-  <script src="script.js"></script>
-
+  <script src="js/countdown.js"></script>
+  <script src="js/confetti.js"></script>
 </body>
 </html>
