@@ -65,45 +65,44 @@
   </nav>
 
   <!-- =========================
-       HERO SECTION
-  ========================= -->
-  <section id="hero">
+     HERO SECTION
+========================= -->
+<section id="hero">
 
-    <!-- Hero Background Video -->
-    <video autoplay muted loop playsinline id="bgVideo" poster="assets/video-fallback.jpg">
-      <source src="assets/video.mp4" type="video/mp4">
-    </video>
+  <!-- Hero Background Video -->
+  <video autoplay muted loop playsinline id="bgVideo" poster="assets/video-fallback.jpg">
+    <source src="assets/video.mp4" type="video/mp4">
+  </video>
 
-    <!-- Countdown Timer -->
-    <div id="countdown">
-      <span id="days">00</span>d
-      <span id="hours">00</span>h
-      <span id="minutes">00</span>m
-      <span id="seconds">00</span>s
+  <!-- Countdown Timer -->
+  <div id="countdown">
+    <span id="days">00</span>d
+    <span id="hours">00</span>h
+    <span id="minutes">00</span>m
+    <span id="seconds">00</span>s
+  </div>
+
+  <!-- Hero Content -->
+  <div class="hero-content" data-aos="fade-up">
+    <img src="assets/logo/A&S 1.png" alt="A & S Logo" class="hero-logo" loading="lazy">
+    <p>We invite you to celebrate our wedding</p>
+
+    <!-- Hero Buttons -->
+    <div class="hero-buttons">
+      <button
+        class="btn-save-date"
+        id="saveDateBtn"
+        aria-label="Save Aldrin & Sharmaine Wedding to your calendar">
+        📅 Save the Date
+      </button>
+      <small class="calendar-hint">Adds to your phone calendar</small>
     </div>
+  </div>
 
-    <!-- Hero Content -->
-    <div class="hero-content" data-aos="fade-up">
-      <img src="assets/logo/A&S 1.png" alt="A & S Logo" class="hero-logo" loading="lazy">
-      <p>We invite you to celebrate our wedding</p>
+  <!-- Hero Confetti -->
+  <div id="confetti"></div>
 
-      <!-- Hero Buttons -->
-      <div class="hero-buttons">
-        <!-- Save the Date Button -->
-        <a href="assets/date/AldrinSharmaineWedding.ics"
-           class="btn-save-date"
-           id="saveDateButton"
-           aria-label="Save Aldrin & Sharmaine Wedding to your calendar">
-           📅 Save the Date
-        </a>
-      </div>
-
-    </div>
-
-    <!-- Hero Confetti -->
-    <div id="confetti"></div>
-
-  </section>
+</section>
 
   <!-- =========================
        STORY SECTION
@@ -211,7 +210,25 @@
   ========================= -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="js/main.js" defer></script>
+<script>
+document.getElementById("saveDateBtn").addEventListener("click", () => {
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
+  if (isIOS) {
+    window.location.href = "wedding.ics";
+  } else {
+    window.open(
+      "https://www.google.com/calendar/render?action=TEMPLATE" +
+      "&text=Aldrin+%26+Sharmaine+Wedding" +
+      "&dates=20270620T080000Z/20270620T120000Z" +
+      "&details=Join+us+on+our+special+day" +
+      "&location=Manila+Philippines",
+      "_blank"
+    );
+  }
+});
+</script>
 </body>
 </html>
+
 
