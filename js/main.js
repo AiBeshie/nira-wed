@@ -1,120 +1,195 @@
-// ===========================
-// AOS INIT
-// ===========================
-AOS.init({ duration: 1000, once: true });
+/* ==================================================
+   MAIN JS FOR WEDDING INVITATION
+   Handles music, confetti, countdown, scroll, RSVP
+================================================== */
+document.addEventListener("DOMContentLoaded", () => {
 
-// ===========================
-// NAVIGATION SHADOW ON SCROLL
-// ===========================
-const nav = document.querySelector(".nav");
+  /* ----------------------------
+     SAFE SELECTORS
+  ---------------------------- */
+  const $ = (sel) => document.querySelector(sel);
+  const $$ = (sel) => document.querySelectorAll(sel);
+  const rand = (min, max) => Math.random() * (max - min) + min;
+  const randomFrom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-window.addEventListener("scroll", () => {
-  nav.style.boxShadow = window.scrollY > 20
-    ? "0 4px 15px rgba(0,0,0,0.3)"
-    : "none";
-});
+/* ----------------------------
+   BACKGROUND MUSIC (IF PRESENT)
+---------------------------- */
+const musicToggle = $("#musicToggle");
+const bgMusic = $("#bgMusic");
 
-// ===========================
-// SCROLL-TO-TOP BUTTON
-// ===========================
-const scrollBtn = document.getElementById("scrollTopBtn");
+if (musicToggle && bgMusic) {
+  // TRY AUTOPLAY ON PAGE LOAD
+  bgMusic.play().catch(() => {
+    console.log("Autoplay blocked. Music will start on user interaction.");
+  });
 
-window.addEventListener("scroll", () => {
-  scrollBtn.style.display = window.scrollY > 300 ? "block" : "none";
-});
+  musicToggle.addEventListener('click', () => {
+    if (bgMusic.paused) {
+      bgMusic.play();
+      musicToggle.textContent = '⏸'; // pause icon
+    } else {
+      bgMusic.pause();
+      musicToggle.textContent = '▶'; // play icon
+    }
+  });
+}
 
-scrollBtn.addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
 
-// ===========================
-// CONFETTI ON RSVP ACCEPT
-// ===========================
-const attendanceSelect = document.getElementById("attendance");
+  /* ----------------------------
+     CONFETTI COLORS
+  ---------------------------- */
+  const cssVars = getComputedStyle(document.documentElement);
+  const CONFETTI_COLORS = [
+    cssVars.getPropertyValue("--clr-accent-primary")?.trim(),
+    cssVars.getPropertyValue("--clr-accent-strong")?.trim(),
+    cssVars.getPropertyValue("--clr-accent-soft")?.trim(),
+  ];
 
-attendanceSelect?.addEventListener("change", (e) => {
-  if (e.target.value.includes("Accepts")) launchConfetti();
-});
+  /* ----------------------------
+     HERO CONFETTI
+  ---------------------------- */
+  const confettiContainer = $("#confetti");
+  function createConfetti(container, sizeRange = [4, 10], yStart = -10, yEnd = 110) {
+    if (!container) return;
+    const conf = document.createElement("span");
+    const size = rand(sizeRange[0], sizeRange[1]);
 
-function launchConfetti() {
-  const confettiCount = 30;
-  for (let i = 0; i < confettiCount; i++) {
-    const conf = document.createElement("div");
-    conf.className = "confetti";
-    conf.style.left = `${Math.random() * 100}vw`;
-    conf.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
-    conf.style.position = "fixed";
-    conf.style.width = "8px";
-    conf.style.height = "8px";
+    conf.style.position = "absolute";
+    conf.style.left = `${rand(0, 100)}%`;
+    conf.style.top = `${yStart}px`;
+    conf.style.width = `${size}px`;
+    conf.style.height = `${size}px`;
+    conf.style.backgroundColor = randomFrom(CONFETTI_COLORS);
     conf.style.borderRadius = "50%";
-    conf.style.zIndex = 9999;
-    document.body.appendChild(conf);
+    conf.style.opacity = rand(0.4, 0.9);
+    conf.style.pointerEvents = "none";
 
     conf.animate(
       [
-        { transform: `translateY(0px) rotate(0deg)`, opacity: 1 },
-        { transform: `translateY(300px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+        { transform: "translateY(0) rotate(0deg)" },
+        { transform: `translateY(${yEnd}vh) rotate(${rand(180, 540)}deg)` },
       ],
-      { duration: 2000, easing: "ease-out", fill: "forwards" }
+      {
+        duration: rand(4000, 6500),
+        easing: "linear",
+        fill: "forwards",
+      }
     );
 
-    setTimeout(() => conf.remove(), 2000);
+    container.appendChild(conf);
+    setTimeout(() => conf.remove(), 7000);
   }
-}
+  if (confettiContainer) setInterval(() => createConfetti(confettiContainer), 250);
 
-// ===========================
-// COUNTDOWN TIMER
-// ===========================
-const countdown = document.getElementById("countdown");
-countdown.innerHTML = `
-  <span id="days" class="count-part"></span>d 
-  <span id="hours" class="count-part"></span>h 
-  <span id="minutes" class="count-part"></span>m 
-  <span id="seconds" class="count-part"></span>s
-`;
+  /* ----------------------------
+     COUNTDOWN TIMER
+  ---------------------------- */
+  const countdown = $("#countdown");
+  if (countdown) {
+    const weddingDate = new Date("June 20, 2027 14:00:00").getTime();
 
-const parts = {
-  days: document.getElementById("days"),
-  hours: document.getElementById("hours"),
-  minutes: document.getElementById("minutes"),
-  seconds: document.getElementById("seconds")
-};
+    countdown.innerHTML = `
+      <span id="days">00</span>d
+      <span id="hours">00</span>h
+      <span id="minutes">00</span>m
+      <span id="seconds">00</span>s
+    `;
 
-const weddingDate = new Date("June 20, 2027 14:00:00").getTime();
+    const parts = {
+      days: $("#days"),
+      hours: $("#hours"),
+      minutes: $("#minutes"),
+      seconds: $("#seconds"),
+    };
 
-function updateCountdown() {
-  const now = Date.now();
-  const distance = weddingDate - now;
+    const updateCountdown = () => {
+      const diff = weddingDate - Date.now();
+      if (diff <= 0) {
+        countdown.textContent = "Today is the big day 💍";
+        return;
+      }
+      const values = {
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      };
+      Object.keys(values).forEach((key) => {
+        parts[key].textContent = String(values[key]).padStart(2, "0");
+      });
+    };
 
-  if (distance <= 0) {
-    countdown.textContent = "The big day is here!";
-    return;
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   }
 
-  const timeValues = {
-    days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-    hours: Math.floor((distance / (1000 * 60 * 60)) % 24),
-    minutes: Math.floor((distance / (1000 * 60)) % 60),
-    seconds: Math.floor((distance / 1000) % 60)
-  };
+  /* ----------------------------
+     AOS INIT
+  ---------------------------- */
+  if (window.AOS) AOS.init({ duration: 1000, once: true, easing: "ease-out-cubic" });
 
-  for (let key in timeValues) {
-    const el = parts[key];
-    const value = timeValues[key].toString().padStart(2, "0");
+  /* ----------------------------
+     NAV SCROLL SHADOW
+  ---------------------------- */
+  const nav = $(".nav");
+  if (nav) {
+    window.addEventListener("scroll", () => {
+      nav.style.boxShadow = window.scrollY > 30 ? "0 6px 20px rgba(0,0,0,0.25)" : "none";
+    });
+  }
 
-    if (el.innerText !== value) {
-      el.classList.remove("fade-in");
-      el.classList.add("fade-out");
+  /* ----------------------------
+     SCROLL TO TOP BUTTON
+  ---------------------------- */
+  const scrollTopBtn = $("#scrollTopBtn");
+  if (scrollTopBtn) {
+    window.addEventListener("scroll", () => {
+      scrollTopBtn.classList.toggle("show", window.scrollY > 200);
+    });
 
-      setTimeout(() => {
-        el.innerText = value;
-        el.classList.remove("fade-out");
-        el.classList.add("fade-in");
-      }, 200);
+    scrollTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  /* ----------------------------
+     RSVP CONFETTI (ACCEPT ATTENDING)
+  ---------------------------- */
+  const attendanceSelect = $("#attendance");
+  if (attendanceSelect) {
+    attendanceSelect.addEventListener("change", (e) => {
+      if (e.target.value.toLowerCase().includes("accept")) launchRSVPConfetti();
+    });
+  }
+
+  function launchRSVPConfetti() {
+    const pieces = 35;
+    for (let i = 0; i < pieces; i++) {
+      const conf = document.createElement("span");
+      const size = rand(6, 10);
+      conf.style.position = "fixed";
+      conf.style.left = `${rand(0, 100)}vw`;
+      conf.style.top = "-10px";
+      conf.style.width = `${size}px`;
+      conf.style.height = `${size}px`;
+      conf.style.borderRadius = "50%";
+      conf.style.backgroundColor = randomFrom(CONFETTI_COLORS);
+      conf.style.pointerEvents = "none";
+      conf.style.zIndex = 9999;
+
+      document.body.appendChild(conf);
+
+      conf.animate(
+        [
+          { transform: "translateY(0) rotate(0deg)", opacity: 1 },
+          { transform: `translateY(300px) rotate(${rand(180, 720)}deg)`, opacity: 0 },
+        ],
+        { duration: 2200, easing: "ease-out", fill: "forwards" }
+      );
+
+      setTimeout(() => conf.remove(), 2300);
     }
   }
-}
 
-// Initial call + interval
-updateCountdown();
-setInterval(updateCountdown, 1000);
+});
