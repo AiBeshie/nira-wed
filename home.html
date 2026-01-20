@@ -150,12 +150,12 @@
     <p>Please let us know if you can join our special day 💜</p>
     <form class="rsvp-form" method="POST">
   <input type="text" name="name" placeholder="Your Full Name" required>
-  <select name="attendance" required>
-    <option disabled selected>Will you be attending?</option>
-    <option>Accepts with pleasure 💜</option>
-    <option>Not sure yet 🤍</option>
-    <option>Regretfully declines 😔</option>
-  </select>
+     <select name="attendance" id="attendance" required>
+      <option value="" hidden selected>Will you be attending?</option>
+      <option value="accepts">Accepts with pleasure 💜</option>
+      <option value="not_sure">Not sure yet 🤍</option>
+      <option value="declines">Regretfully declines 😔</option>
+    </select>
   <textarea name="message" rows="4" placeholder="Leave a message..."></textarea>
   <button type="submit">Send RSVP</button>
 </form>
@@ -214,3 +214,4 @@
 
 </body>
 </html>
+
