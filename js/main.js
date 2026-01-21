@@ -283,5 +283,36 @@ if (rsvpForm) {
   });
 }
 
+  /* ----------------------------
+     SETTINGS PANEL + BACKGROUND SWITCH
+  ---------------------------- */
+  const settingsToggle = $("#settingsToggle");
+  const settingsPanel = $("#settingsPanel");
+  const bgButtons = $$(".bg-options button");
+
+  const applyBackground = (file) => {
+    if (!file) return;
+    const url = encodeURI(`./assets/background/${file}`);
+    document.body.style.backgroundImage = `url("${url}")`;
+    localStorage.setItem("bodyBackground", file);
+  };
+
+  if (settingsToggle && settingsPanel) {
+    settingsToggle.addEventListener("click", () => {
+      settingsPanel.style.display = settingsPanel.style.display === "block" ? "none" : "block";
+    });
+  }
+
+  bgButtons.forEach(btn => {
+    btn.addEventListener("click", () => applyBackground(btn.dataset.bg));
+  });
+
+  // Load saved background
+  const savedBg = localStorage.getItem("bodyBackground");
+  if (savedBg) applyBackground(savedBg);
+
+
+   
 
 });
+
