@@ -27,6 +27,9 @@
   --font-size-countdown: 2.2rem;
   --font-size-section:   2rem;
   --font-size-text:      1rem;
+
+
+    --body-bg: url("./assets/background/bg7.jpg"); /* default background, spaces encoded */
 }
 
 /* ===========================
@@ -40,10 +43,20 @@
 
 body {
   font-family: 'Lato', sans-serif;
-  background: var(--clr-surface-main);
+
+  background-image: var(--body-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  /* ADD smooth transition */
+  transition: background-image 0.6s ease-in-out;
+
   color: var(--clr-text-primary);
   scroll-behavior: smooth;
 }
+
 
 a {
   color: var(--clr-accent-primary);
@@ -428,3 +441,4 @@ footer {
   .nav ul { gap: 10px; font-size: 0.8rem; }
   section { padding: 50px 10px; }
 }
+
