@@ -53,6 +53,9 @@
       <li><a href="#details">Details</a></li>
       <li><a href="#rsvp">RSVP</a></li>
       <li><a href="#gallery">Gallery</a></li>
+        <li class="nav-settings">
+  <button id="settingsToggle" aria-label="Open settings">⚙️</button>
+</li>
       <li>
         <a href="#" id="musicToggle" aria-label="Toggle background music">
           <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -228,7 +231,23 @@ document.getElementById("saveDateBtn").addEventListener("click", () => {
   }
 });
 </script>
+
+
+  <div id="settingsPanel">
+  <h4>Background</h4>
+  <div class="bg-options">
+    <button data-bg="bg1.png">1</button>
+    <button data-bg="bg2.png">2</button>
+    <button data-bg="bg3.jpg">3</button>
+    <button data-bg="bg4.jpg">4</button>
+    <button data-bg="bg5.jpg">5</button>
+    <button data-bg="bg6.jpg">6</button>
+    <button data-bg="bg7.jpg">7</button>
+    <button data-bg="bg8.jpg">8</button>
+  </div>
+</div>
 </body>
 </html>
+
 
 
