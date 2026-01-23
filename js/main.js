@@ -226,7 +226,7 @@ if (rsvpForm) {
 
     try {
       const res = await fetch(
-        "https://script.google.com/macros/s/AKfycbx9TXqmwIS6HuIo3ECIYdKNFgJX9CO5kxi4TWHO9-Tgiy3Msyhl4jYr0_ZSN-xJbzo/exec",
+        "https://script.google.com/macros/s/AKfycbzhTmHU0p5HNx_ANrWSsxkM050_oY59RDS2xQwu__ZAATY5OVk6_bLQhL1Pa19CKynYJw/exec",
         {
           method: "POST",
           body: new URLSearchParams(data)
@@ -315,5 +315,6 @@ if (rsvpForm) {
    
 
 });
+
 
 
