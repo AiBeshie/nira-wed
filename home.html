@@ -63,17 +63,29 @@
   </nav>
 
 <section id="hero" class="hero" data-aos="fade-up">
-  <video class="hero__video" autoplay muted loop playsinline poster="assets/video-fallback.jpg">
-    <source src="assets/video.mp4" type="video/mp4" />
-  </video>
 
-  <!-- Countdown above hero content -->
-  <div id="countdown" class="hero__countdown">
-    <span id="days">00</span>d
-    <span id="hours">00</span>h
-    <span id="minutes">00</span>m
-    <span id="seconds">00</span>s
+<!-- Multi-box Countdown -->
+<div id="countdownBoxes" class="hero__countdown-multi">
+  <div class="countdown-box">
+    <div id="daysNumber" class="countdown-number">0</div>
+    <div class="countdown-label">days</div>
   </div>
+  <div class="countdown-box">
+    <div id="hoursNumber" class="countdown-number">0</div>
+    <div class="countdown-label">hrs</div>
+  </div>
+  <div class="countdown-box">
+    <div id="minutesNumber" class="countdown-number">0</div>
+    <div class="countdown-label">mins</div>
+  </div>
+  <div class="countdown-box">
+    <div id="secondsNumber" class="countdown-number">0</div>
+    <div class="countdown-label">secs</div>
+  </div>
+</div>
+
+
+
 
   <div class="hero__content" data-aos="fade-up">
     <img src="assets/logo/A&S 3.png" alt="A & S Logo" class="hero__logo" loading="lazy" />
@@ -148,40 +160,44 @@
     </form>
   </section>
 
-  <!-- =========================
-       GALLERY
-  ========================= -->
-  <section id="gallery" class="section" data-aos="fade-up">
-    <h2 class="section__title">Gallery</h2>
-
-    <div class="gallery">
-      <h3>Prenup</h3>
-      <div id="prenup-gallery" class="gallery-wrapper"></div>
-
-      <h3>Church</h3>
-      <div id="church-gallery" class="gallery-wrapper"></div>
-
-      <h3>Reception</h3>
-      <div id="reception-gallery" class="gallery-wrapper"></div>
-    </div>
-  </section>
 <!-- =========================
-     LIGHTBOX
+     GALLERY
 ========================= -->
-<div id="lightbox" class="lightbox" style="display: none;">
-  <!-- Close button -->
-  <button class="lightbox__close" aria-label="Close">&times;</button>
+<section id="gallery" class="section" data-aos="fade-up">
+  <h2 class="section__title">Gallery</h2>
 
-  <!-- Image displayed in lightbox -->
-  <img class="lightbox__image" alt="Gallery Image" />
+  <div class="gallery">
 
-  <!-- Caption for the image -->
-  <p class="lightbox__caption"></p>
+    <!-- Prenup Gallery -->
+    <h3>Prenup</h3>
+    <div id="prenup-gallery" class="gallery-wrapper"></div>
+    <div class="pagination" id="prenup-pagination">
+      <button class="prev">Prev</button>
+      <button class="next">Next</button>
 
-  <!-- Navigation arrows -->
-  <button class="lightbox__prev" aria-label="Previous">&#10094;</button>
-  <button class="lightbox__next" aria-label="Next">&#10095;</button>
-</div>
+    </div>
+
+    <!-- Church Gallery -->
+    <h3>Church</h3>
+    <div id="church-gallery" class="gallery-wrapper"></div>
+    <div class="pagination" id="church-pagination">
+      <button class="prev">Prev</button>
+      <button class="next">Next</button>
+
+    </div>
+
+    <!-- Reception Gallery -->
+    <h3>Reception</h3>
+    <div id="reception-gallery" class="gallery-wrapper"></div>
+    <div class="pagination" id="reception-pagination">
+      <button class="prev">Prev</button>
+      <button class="next">Next</button>
+   
+    </div>
+
+  </div>
+</section>
+
 
 
   <!-- =========================
@@ -195,10 +211,15 @@
     </p>
   </section>
 <div id="drivePopup" class="drive-popup">
-  <span class="drive-close" onclick="closeDrivePreview()">✕</span>
-  <iframe id="driveFrame" allow="autoplay"></iframe>
-  <p id="driveCaption"></p>
+  <button class="drive-close">✕</button>
+  <button class="drive-prev">‹</button>
+  <button class="drive-next">›</button>
+  <button class="drive-download">⬇</button> <!-- NEW DOWNLOAD BUTTON -->
+
+  <iframe id="driveFrame"></iframe>
+  <div id="driveCaption"></div>
 </div>
+
 
   <!-- =========================
        FOOTER

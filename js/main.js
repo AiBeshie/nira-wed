@@ -105,41 +105,26 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==================================================
      COUNTDOWN TIMER
   ================================================== */
-  const countdown = $("#countdown");
+  var targetDate = new Date("June 20, 2027 00:00:00").getTime();
 
-  if (countdown) {
-    const weddingDate = new Date("June 20, 2027 14:00:00").getTime();
+function updateCountdown() {
+    var now = new Date().getTime();
+    var distance = targetDate - now;
 
-    const parts = {
-      days: $("#days"),
-      hours: $("#hours"),
-      minutes: $("#minutes"),
-      seconds: $("#seconds")
-    };
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    const updateCountdown = () => {
-      const diff = weddingDate - Date.now();
+    document.getElementById("daysNumber").innerText = days > 0 ? days : 0;
+    document.getElementById("hoursNumber").innerText = hours < 10 ? '0'+hours : hours;
+    document.getElementById("minutesNumber").innerText = minutes < 10 ? '0'+minutes : minutes;
+    document.getElementById("secondsNumber").innerText = seconds < 10 ? '0'+seconds : seconds;
+}
 
-      if (diff <= 0) {
-        countdown.textContent = "Today is the big day 💍";
-        return;
-      }
+setInterval(updateCountdown, 1000);
+updateCountdown();
 
-      const time = {
-        days: diff / 86400000,
-        hours: (diff / 3600000) % 24,
-        minutes: (diff / 60000) % 60,
-        seconds: (diff / 1000) % 60
-      };
-
-      Object.keys(time).forEach(key => {
-        parts[key].textContent = String(Math.floor(time[key])).padStart(2, "0");
-      });
-    };
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-  }
 
   /* ==================================================
      AOS INITIALIZATION
@@ -299,7 +284,7 @@ const sectionMap = {
   reception: "reception-gallery"
 };
 
-const PHOTOS_PER_PAGE = 9;
+const PHOTOS_PER_PAGE = 16;
 const PLACEHOLDER =
   "https://via.placeholder.com/400x400/c0c0c0/ffffff?text=Upload+Here";
 
@@ -334,16 +319,17 @@ function paginate(files) {
 
 /* ================= LOAD EACH GALLERY ================= */
 async function loadGallery(key) {
-  const section = document.getElementById(sectionMap[key]);
-  if (!section) return;
+  const wrapper = document.getElementById(sectionMap[key]);
+  if (!wrapper) return;
+
+  const pagination = document.getElementById(`${key}-pagination`);
+  const prevBtn = pagination?.querySelector(".prev");
+  const nextBtn = pagination?.querySelector(".next");
+  const downloadBtn = pagination?.querySelector(".download");
 
   const files = await fetchImages(folders[key]);
   const pages = paginate(files);
   let currentPage = 0;
-
-  const wrapper = document.createElement("div");
-  wrapper.className = "gallery-wrapper";
-  section.appendChild(wrapper);
 
   function renderPage() {
     wrapper.innerHTML = "";
@@ -353,10 +339,10 @@ async function loadGallery(key) {
       fig.dataset.id = file.id || "";
       fig.dataset.name = file.name || "Photo";
 
-      fig.innerHTML = `
-        <img src="${file.thumbnailLink || PLACEHOLDER}" loading="lazy">
-        <figcaption>${file.name || "Placeholder"}</figcaption>
-      `;
+	fig.innerHTML = `
+  <img src="${file.thumbnailLink || PLACEHOLDER}" loading="lazy" alt="Wedding Photo">
+`;
+
 
       wrapper.appendChild(fig);
     });
@@ -364,28 +350,20 @@ async function loadGallery(key) {
 
   renderPage();
 
-  if (pages.length > 1) {
-    const pagination = document.createElement("div");
-    pagination.className = "pagination";
+  /* ===== PREV BUTTON ===== */
+  prevBtn?.addEventListener("click", () => {
+    currentPage = (currentPage - 1 + pages.length) % pages.length;
+    renderPage();
+  });
 
-    const prev = document.createElement("button");
-    prev.textContent = "Prev";
-    prev.onclick = () => {
-      currentPage = (currentPage - 1 + pages.length) % pages.length;
-      renderPage();
-    };
+  /* ===== NEXT BUTTON ===== */
+  nextBtn?.addEventListener("click", () => {
+    currentPage = (currentPage + 1) % pages.length;
+    renderPage();
+  });
 
-    const next = document.createElement("button");
-    next.textContent = "Next";
-    next.onclick = () => {
-      currentPage = (currentPage + 1) % pages.length;
-      renderPage();
-    };
-
-    pagination.append(prev, next);
-    section.appendChild(pagination);
-  }
 }
+
 
 /* ================= DRIVE HD POPUP (UPDATED SLIDE + CLOSE) ================= */
 let currentGallery = [];
@@ -471,6 +449,25 @@ document.addEventListener("click", (e) => {
   openDrivePreview(fig.dataset.id, fig.dataset.name, galleryArray);
 });
 
+
+
+
+const driveDownload = document.querySelector(".drive-download");
+
+// Download current image
+driveDownload?.addEventListener("click", () => {
+  if (!currentGallery.length) return;
+  const current = currentGallery[currentIndex];
+  if (!current?.id) return;
+
+  // Google Drive direct download URL
+  const link = document.createElement("a");
+  link.href = `https://drive.google.com/uc?export=download&id=${current.id}`;
+  link.download = current.name || "photo";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+});
 
 /* ================= INIT ALL GALLERIES ================= */
 Object.keys(folders).forEach(loadGallery);
