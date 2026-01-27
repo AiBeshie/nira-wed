@@ -454,20 +454,22 @@ document.addEventListener("click", (e) => {
 
 const driveDownload = document.querySelector(".drive-download");
 
-// Download current image
+// Download current image without Google sign-in
 driveDownload?.addEventListener("click", () => {
   if (!currentGallery.length) return;
   const current = currentGallery[currentIndex];
   if (!current?.id) return;
 
-  // Google Drive direct download URL
+  // Public Google Drive direct download link
   const link = document.createElement("a");
+  // Use 'uc?export=download' which works for publicly shared files
   link.href = `https://drive.google.com/uc?export=download&id=${current.id}`;
   link.download = current.name || "photo";
   document.body.appendChild(link);
   link.click();
-  link.remove();
+  document.body.removeChild(link);
 });
+
 
 /* ================= INIT ALL GALLERIES ================= */
 Object.keys(folders).forEach(loadGallery);
@@ -489,3 +491,4 @@ function closeDrivePopup() {
 
 // Example triggers
 document.querySelector('.drive-close').addEventListener('click', closeDrivePopup);
+
