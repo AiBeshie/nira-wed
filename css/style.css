@@ -1,410 +1,392 @@
-/* ===========================
-   VARIABLES / THEME
-=========================== */
+/* ==================================================
+   THEME VARIABLES
+================================================== */
 :root {
-  /* Core Surfaces */
-  --clr-surface-main:    #f9f4f7; 
-  --clr-surface-alt:     #ccb4ce; 
-  --clr-surface-dark:    #9b779d; 
-  --clr-surface-deep:    #1d274b; 
+  /* Colors */
+  --clr-bg-main: #f9f4f7;
+  --clr-bg-glass: rgba(29, 39, 75, 0.85);
 
-  /* Text Colors */
-  --clr-text-primary:    #1d1d1d;
-  --clr-text-inverse:    #ffffff;
-  --clr-text-muted:      #ccb4ce;
+  --clr-primary: #1d274b;
+  --clr-secondary: #9b779d;
+  --clr-accent: #c9907c;
+  --clr-soft: #f3e4e1;
 
-  /* Brand / Accent Colors */
-  --clr-accent-primary:  #1d274b;
-  --clr-accent-soft:     #f3e4e1;
-  --clr-accent-strong:   #c9907c;
+  --clr-text-main: #1d1d1d;
+  --clr-text-light: #ffffff;
+  --clr-text-muted: #6b6b6b;
 
-  /* UI Colors */
-  --clr-border-soft:     #ccb4ce;
-  --clr-shadow:          rgba(0,0,0,0.25);
+  --clr-shadow: rgba(0, 0, 0, 0.25);
 
   /* Typography */
-  --font-size-hero:      2.5rem;
-  --font-size-countdown: 2.2rem;
-  --font-size-section:   2rem;
-  --font-size-text:      1rem;
+  --font-hero: 2.5rem;
+  --font-section: 2rem;
+  --font-body: 1rem;
+  --font-countdown: 2rem;
 
+  /* Layout */
+  --radius-lg: 16px;
+  --radius-pill: 50px;
 
-    --body-bg: url("./assets/background/bg7.jpg"); /* default background, spaces encoded */
+  /* Background */
+  --body-bg: url("../assets/background/bg1.jpg");
 }
 
-/* ===========================
-   GLOBAL STYLES
-=========================== */
-* {
+/* ==================================================
+   RESET / BASE
+================================================== */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  font-family: 'Lato', sans-serif;
-
-  background-image: var(--body-bg);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-
-  /* ADD smooth transition */
-  transition: background-image 0.6s ease-in-out;
-
-  color: var(--clr-text-primary);
+html {
   scroll-behavior: smooth;
 }
 
+body {
+  font-family: "Lato", sans-serif;
+  color: var(--clr-text-main);
+  background: var(--body-bg) center / cover no-repeat fixed;
+  transition: background-image 0.6s ease-in-out;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
 
 a {
-  color: var(--clr-accent-primary);
   text-decoration: none;
-  transition: color 0.3s ease;
+  color: inherit;
 }
 
-a:hover {
-  color: var(--clr-accent-strong);
-}
-
-/* ===========================
-   HASHTAG BANNER
-=========================== */
-#hashtag {
+/* ==================================================
+   HASHTAG
+================================================== */
+.hashtag {
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(155,119,157,0.95);
-  color: var(--clr-text-inverse);
-  text-align: center;
-  font-weight: bold;
-  font-size: 1rem;
   padding: 6px 0;
-  z-index: 1001;
+  text-align: center;
+  background: rgba(155, 119, 157, 0.95);
+  color: var(--clr-text-light);
+  font-weight: bold;
   letter-spacing: 1px;
-  box-shadow: 0 2px 10px var(--clr-shadow);
+  z-index: 1000;
 }
 
-/* ===========================
+/* ==================================================
    NAVIGATION
-=========================== */
+================================================== */
 .nav {
-  position: relative;
-  top: 25px;
-  width: 100%;
-  background: rgba(29, 39, 75, 0.85);
-  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 28px;
+  margin: 0 auto;
+  max-width: 1100px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   padding: 12px 20px;
-  border-radius: 12px;
-  z-index: 999;
+  border-radius: var(--radius-lg);
+  background: var(--clr-bg-glass);
+  backdrop-filter: blur(8px);
+
+  z-index: 1001;
 }
 
-.nav-brand {
-  font-family: 'Playfair Display', serif;
+.nav__brand {
+  font-family: "Playfair Display", serif;
   font-size: 1.2rem;
   font-weight: 700;
-  color: var(--clr-surface-main);
+  color: var(--clr-text-light);
 }
 
-.nav ul {
+.nav__links {
   list-style: none;
   display: flex;
   align-items: center;
   gap: 18px;
 }
 
-.nav ul li a,
-.nav ul li #musicToggle {
+.nav__links a,
+.nav__icon {
   font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--clr-accent-soft);
-  border: none;
+  color: var(--clr-soft);
   cursor: pointer;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
+  background: none;
+  border: none;
   transition: color 0.3s ease;
 }
 
-.nav ul li a::after,
-.nav ul li #musicToggle::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  width: 0;
-  height: 2px;
-  background: var(--clr-accent-soft);
-  transition: width 0.3s ease;
+.nav__links a:hover,
+.nav__icon:hover {
+  color: var(--clr-accent);
 }
 
-.nav ul li a:hover::after,
-.nav ul li #musicToggle:hover::after {
-  width: 100%;
-}
-
-.nav ul li a:hover,
-.nav ul li #musicToggle:hover {
-  color: var(--clr-accent-strong);
-}
-
-#musicToggle .icon {
-  width: 16px;
-  height: 16px;
-  pointer-events: none;
-}
-
-/* ===========================
-   HERO SECTION
-=========================== */
-#hero {
+/* ==================================================
+   HERO
+================================================== */
+.hero {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   position: relative;
-  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
 }
 
-#hero video {
+.hero__video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.6);
+  filter: brightness(0.55);
   z-index: 0;
 }
 
-.hero-content {
-  position: relative;
+.hero__countdown {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 26px;
+  background: var(--clr-soft);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-countdown);
+  font-weight: bold;
+  color: var(--clr-primary);
+  box-shadow: 0 6px 20px var(--clr-shadow);
   z-index: 1;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  max-width: 90%;
+  gap: 14px;
 }
 
-.hero-logo {
-  max-width: 400px;
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
+.hero__logo {
+  max-width: 380px;
 }
 
-.hero-content p {
-  color: var(--clr-surface-dark);
-  font-size: var(--font-size-hero);
+.hero__text {
+  font-size: var(--font-hero);
+  color: var(--clr-secondary);
   font-weight: 500;
-  line-height: 1.3;
 }
 
-/* ===========================
-   COUNTDOWN TIMER
-=========================== */
-#countdown {
-  margin: 20px auto;
-  padding: 12px 24px;
-  background: var(--clr-accent-soft);
-  color: var(--clr-accent-primary);
-  border-radius: 16px;
-  font-size: var(--font-size-countdown);
-  font-weight: bold;
-  letter-spacing: 2px;
-  box-shadow: 0 6px 20px var(--clr-shadow);
-}
-/* ===========================
-   HERO BUTTONS
-=========================== */
-.hero-buttons {
-  display: flex;
-  flex-wrap: wrap;       /* allows buttons to stack on smaller screens */
-  gap: 20px;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-/* Generic Hero Buttons */
-.hero-buttons button {
+/* ==================================================
+   BUTTONS
+================================================== */
+.btn {
   padding: 16px 36px;
-  border-radius: 50px;
-  font-weight: bold;
-  cursor: pointer;
-  text-align: center;
+  border-radius: var(--radius-pill);
   border: none;
-  background: linear-gradient(135deg, var(--clr-accent-soft), var(--clr-accent-primary));
-  color: var(--clr-text-inverse);
-  transition: all 0.3s ease;
-}
-
-.hero-buttons button:hover {
-  background: var(--clr-accent-primary);
-  color: var(--clr-accent-strong);
-  transform: scale(1.05);
-}
-
-/* Save the Date Button */
-.btn-save-date {
-  display: inline-flex;        /* allows emoji or icon alignment */
-  align-items: center;
-  gap: 8px;
-  padding: 16px 36px;
-  border-radius: 50px;
-  font-weight: bold;
   cursor: pointer;
-  text-align: center;
-  background: linear-gradient(135deg, var(--clr-surface-alt), var(--clr-accent-primary));
-  color: var(--clr-text-inverse);
-  transition: all 0.3s ease;
+
+  font-weight: bold;
+  color: var(--clr-text-light);
+  background: linear-gradient(135deg, var(--clr-secondary), var(--clr-primary));
+
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
-.btn-save-date:hover {
-  background: var(--clr-accent-primary);
-  color: var(--clr-accent-strong);
+.btn:hover {
   transform: scale(1.05);
+  background: var(--clr-primary);
 }
 
-/* Optional: hide AddEvent injected icon inside Save the Date button */
-.btn-save-date .icon {
-  display: none !important;
-}
-
-
-/* ===========================
+/* ==================================================
    SECTIONS
-=========================== */
-section {
+================================================== */
+.section {
   padding: 80px 15px;
   text-align: center;
-  scroll-margin-top: 90px;
 }
 
-section h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: var(--font-size-section);
-  color: var(--clr-accent-primary);
+.section__title {
+  font-family: "Playfair Display", serif;
+  font-size: var(--font-section);
+  color: var(--clr-primary);
   margin-bottom: 24px;
 }
 
-section p {
-  max-width: 90%;
-  margin: auto;
-  color: var(--clr-surface-dark);
-  font-size: var(--font-size-text);
+.section p {
+  max-width: 700px;
+  margin: 0 auto;
   line-height: 1.6;
+  color: var(--clr-text-muted);
 }
 
-/* ===========================
-   GALLERY
-=========================== */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 20px;
-}
-
-.gallery-grid img {
-  width: 100%;
-  border-radius: 12px;
-  border: 2px solid var(--clr-border-soft);
-  transition: all 0.25s ease;
-}
-
-.gallery-grid img:hover {
-  box-shadow: 0 8px 20px var(--clr-shadow);
-}
-
-/* ===========================
-   RSVP FORM
-=========================== */
+/* ==================================================
+   RSVP
+================================================== */
 #rsvp {
-  background: linear-gradient(180deg, var(--clr-surface-dark), var(--clr-surface-deep));
-  color: var(--clr-text-inverse);
+  background: linear-gradient(180deg, var(--clr-secondary), var(--clr-primary));
+  color: var(--clr-text-light);
 }
 
 .rsvp-form {
+  max-width: 420px;
+  margin: 30px auto 0;
+
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 480px;
-  margin: auto;
 }
 
-#rsvp h2 {
-  color: var(--clr-text-inverse); 
-  margin-bottom: 20px;
-}
-
-#rsvp p {
-  font-size: 1.1rem;
-  margin-bottom: 30px;
-  color: #1d274b; /* ensures the “Please let us know…” text stands out */
-}
-
-#rsvp input,
-#rsvp select,
-#rsvp textarea,
-#rsvp button {
-  display: block;
-  width: 100%;
-  max-width: 400px;
-  margin: 10px auto;
-  padding: 10px;
+.rsvp-form input,
+.rsvp-form select,
+.rsvp-form textarea {
+  padding: 12px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: none;
   font-size: 1rem;
 }
 
-#rsvp button {
-  background-color: #9b779d;
-  color: #fff;
-  border: none;
+/* ==================================================
+   GALLERY
+================================================== */
+.gallery h3 {
+  margin: 40px 0 20px;
+  color: var(--clr-primary);
+  text-align: left;
+  font-size: 1.2rem;
+}
+
+.gallery-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* fully responsive */
+  gap: 16px;
+}
+
+.gallery-wrapper img {
+  width: 100%;
+  aspect-ratio: 1/1; /* keeps images square */
+  object-fit: cover; /* fills the cell without stretching */
+  border-radius: 0;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-#rsvp button:hover {
-  background-color: #ccb4ce;
+.gallery-wrapper img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px var(--clr-shadow);
 }
 
-/* ===========================
+/* ==================================================
+   LIGHTBOX
+================================================== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  z-index: 2000;
+}
+
+.lightbox__image {
+  max-width: 90%;
+  max-height: 80vh;
+}
+
+.lightbox__caption {
+  margin-top: 12px;
+  color: #fff;
+  text-align: center;
+}
+
+.lightbox__close,
+.lightbox__prev,
+.lightbox__next {
+  position: absolute;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.lightbox__close {
+  top: 20px;
+  right: 30px;
+}
+
+.lightbox__prev {
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lightbox__next {
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lightbox__close:hover,
+.lightbox__prev:hover,
+.lightbox__next:hover {
+  color: var(--clr-accent);
+}
+
+/* ==================================================
+   CONFETTI
+================================================== */
+#confetti span {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+/* ==================================================
    FOOTER
-=========================== */
-footer {
-  background: var(--clr-surface-dark);
-  color: var(--clr-text-inverse);
+================================================== */
+.footer {
+  background: var(--clr-secondary);
+  color: var(--clr-text-light);
   padding: 40px 15px;
   text-align: center;
-  font-size: 0.95rem;
 }
 
-/* ===========================
-   SCROLL TO TOP BUTTON
-=========================== */
+/* ==================================================
+   SCROLL TOP
+================================================== */
 #scrollTopBtn {
   position: fixed;
   bottom: 25px;
   right: 25px;
-  width: 50px;
-  height: 50px;
+
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: var(--clr-accent-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+  background: var(--clr-primary);
+  color: var(--clr-text-light);
+  border: none;
+
   opacity: 0;
   transform: scale(0);
   transition: all 0.3s ease;
-  cursor: pointer;
+  z-index: 999;
 }
 
 #scrollTopBtn.show {
@@ -412,90 +394,89 @@ footer {
   transform: scale(1);
 }
 
-#scrollTopBtn svg {
-  width: 24px;
-  height: 24px;
-  color: var(--clr-accent-soft);
-  pointer-events: none;
-}
-
-/* ===========================
+/* ==================================================
    RESPONSIVE
-=========================== */
+================================================== */
 @media (max-width: 768px) {
-  :root { 
-    --font-size-countdown: 1.8rem; 
-    --font-size-hero: 2rem; 
+  :root {
+    --font-hero: 2rem;
+    --font-countdown: 1.6rem;
   }
-  .nav ul { gap: 14px; font-size: 0.9rem; }
-  .hero-content p { font-size: var(--font-size-hero); }
-  #countdown { font-size: var(--font-size-countdown); padding: 12px 20px; }
-  section { padding: 60px 10px; }
+
+  .hero__countdown {
+    top: 50px;
+    font-size: 1.6rem;
+  }
+
+  .nav {
+    padding: 10px 15px;
+  }
 }
 
 @media (max-width: 480px) {
-  :root { 
-    --font-size-countdown: 1.5rem; 
-    --font-size-hero: 1.7rem; 
+  :root {
+    --font-hero: 1.7rem;
   }
-  .nav ul { gap: 10px; font-size: 0.8rem; }
-  section { padding: 50px 10px; }
+
+  .hero__countdown {
+    font-size: 1.4rem;
+    top: 40px;
+  }
+
+  .btn {
+    padding: 12px 28px;
+  }
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-/* ===========================
-   SETTINGS PANEL
-=========================== */
-#settingsPanel {
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  background: rgba(255,255,255,0.95);
+.map-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
   border-radius: 14px;
-  padding: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  z-index: 2000;
+}
+
+.map-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.drive-popup {
   display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 9999;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-#settingsPanel h4 {
-  margin-bottom: 10px;
-  font-size: 0.9rem;
-  color: var(--clr-accent-primary);
-}
-
-.bg-options {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-
-.bg-options button {
+.drive-popup iframe {
+  width: 95%;
+  height: 80vh;
   border: none;
-  border-radius: 8px;
-  padding: 8px;
-  cursor: pointer;
-  background: var(--clr-accent-soft);
-  font-weight: bold;
+  border-radius: 6px;
 }
 
-.bg-options button:hover {
-  background: var(--clr-accent-strong);
+.drive-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
   color: #fff;
+  cursor: pointer;
 }
 
-
-
+#driveCaption {
+  color: white;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+}

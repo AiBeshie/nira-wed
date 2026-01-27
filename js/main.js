@@ -1,117 +1,139 @@
 /* ==================================================
-   MAIN JS FOR WEDDING INVITATION
-   Features: Background music, confetti, countdown,
-             scroll-to-top, AOS, RSVP confetti,
-             Universal Save the Date button
+   MAIN JS — WEDDING INVITATION (FINAL CLEAN)
+   Features:
+   - Background music + selector
+   - Hero & RSVP confetti
+   - Countdown timer
+   - Scroll effects
+   - RSVP submit (Google Sheets)
+   - Google Drive galleries w/ pagination
+   - Lightbox (keyboard + arrows)
+   - Settings panel (background + music)
 ================================================== */
+
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ----------------------------
-     HELPER FUNCTIONS
-  ---------------------------- */
-  const $ = (selector) => document.querySelector(selector);
-  const $$ = (selector) => document.querySelectorAll(selector);
+  /* ==================================================
+     HELPERS
+  ================================================== */
+  const $  = (q) => document.querySelector(q);
+  const $$ = (q) => document.querySelectorAll(q);
   const rand = (min, max) => Math.random() * (max - min) + min;
-  const randomFrom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-  /* ----------------------------
+  /* ==================================================
      BACKGROUND MUSIC
-  ---------------------------- */
+  ================================================== */
   const bgMusic = $("#bgMusic");
   const musicToggle = $("#musicToggle");
+  let isPlaying = false;
 
   if (bgMusic && musicToggle) {
     bgMusic.volume = 0.3;
-    bgMusic.play().catch(() => {
-      console.log("Autoplay blocked. Music will start on user interaction.");
-    });
+
+    bgMusic.play()
+      .then(() => {
+        isPlaying = true;
+        musicToggle.textContent = "⏸";
+      })
+      .catch(() => {
+        musicToggle.textContent = "▶";
+      });
 
     musicToggle.addEventListener("click", () => {
       if (bgMusic.paused) {
         bgMusic.play();
         musicToggle.textContent = "⏸";
+        isPlaying = true;
       } else {
         bgMusic.pause();
         musicToggle.textContent = "▶";
+        isPlaying = false;
       }
     });
   }
 
-  /* ----------------------------
-     CONFETTI COLORS
-  ---------------------------- */
+  /* ==================================================
+     CONFETTI COLORS (CSS FALLBACK SAFE)
+  ================================================== */
   const cssVars = getComputedStyle(document.documentElement);
   const CONFETTI_COLORS = [
-    cssVars.getPropertyValue("--clr-accent-primary")?.trim() || "#9b779d",
-    cssVars.getPropertyValue("--clr-accent-strong")?.trim() || "#ccb4ce",
-    cssVars.getPropertyValue("--clr-accent-soft")?.trim() || "#c9907c"
+    cssVars.getPropertyValue("--clr-secondary").trim() || "#9b779d",
+    cssVars.getPropertyValue("--clr-accent").trim() || "#c9907c",
+    cssVars.getPropertyValue("--clr-soft").trim() || "#f3e4e1"
   ];
 
-  /* ----------------------------
+  /* ==================================================
      HERO CONFETTI
-  ---------------------------- */
+  ================================================== */
   const confettiContainer = $("#confetti");
 
-  function createConfetti(container, sizeRange = [4, 10], yStart = -10, yEnd = 110) {
+  function spawnConfetti(container) {
     if (!container) return;
 
-    const conf = document.createElement("span");
-    const size = rand(sizeRange[0], sizeRange[1]);
+    const piece = document.createElement("span");
+    const size = rand(4, 10);
 
-    conf.style.cssText = `
+    piece.style.cssText = `
       position: absolute;
       left: ${rand(0, 100)}%;
-      top: ${yStart}px;
+      top: -10px;
       width: ${size}px;
       height: ${size}px;
-      background-color: ${randomFrom(CONFETTI_COLORS)};
       border-radius: 50%;
+      background: ${pick(CONFETTI_COLORS)};
       opacity: ${rand(0.4, 0.9)};
       pointer-events: none;
     `;
 
-    conf.animate(
+    piece.animate(
       [
         { transform: "translateY(0) rotate(0deg)" },
-        { transform: `translateY(${yEnd}vh) rotate(${rand(180, 540)}deg)` },
+        { transform: `translateY(110vh) rotate(${rand(180, 540)}deg)` }
       ],
       { duration: rand(4000, 6500), easing: "linear", fill: "forwards" }
     );
 
-    container.appendChild(conf);
-    setTimeout(() => conf.remove(), 7000);
+    container.appendChild(piece);
+    setTimeout(() => piece.remove(), 7000);
   }
 
-  if (confettiContainer) setInterval(() => createConfetti(confettiContainer), 250);
+  if (confettiContainer) {
+    setInterval(() => spawnConfetti(confettiContainer), 250);
+  }
 
-  /* ----------------------------
+  /* ==================================================
      COUNTDOWN TIMER
-  ---------------------------- */
-  const countdownEl = $("#countdown");
-  if (countdownEl) {
+  ================================================== */
+  const countdown = $("#countdown");
+
+  if (countdown) {
     const weddingDate = new Date("June 20, 2027 14:00:00").getTime();
 
     const parts = {
       days: $("#days"),
       hours: $("#hours"),
       minutes: $("#minutes"),
-      seconds: $("#seconds"),
+      seconds: $("#seconds")
     };
 
     const updateCountdown = () => {
       const diff = weddingDate - Date.now();
+
       if (diff <= 0) {
-        countdownEl.textContent = "Today is the big day 💍";
+        countdown.textContent = "Today is the big day 💍";
         return;
       }
-      const values = {
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((diff / (1000 * 60)) % 60),
-        seconds: Math.floor((diff / 1000) % 60),
+
+      const time = {
+        days: diff / 86400000,
+        hours: (diff / 3600000) % 24,
+        minutes: (diff / 60000) % 60,
+        seconds: (diff / 1000) % 60
       };
-      Object.keys(values).forEach(key => {
-        parts[key].textContent = String(values[key]).padStart(2, "0");
+
+      Object.keys(time).forEach(key => {
+        parts[key].textContent = String(Math.floor(time[key])).padStart(2, "0");
       });
     };
 
@@ -119,202 +141,338 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(updateCountdown, 1000);
   }
 
-  /* ----------------------------
-     INITIALIZE AOS
-  ---------------------------- */
+  /* ==================================================
+     AOS INITIALIZATION
+  ================================================== */
   if (window.AOS) {
     AOS.init({
       duration: 1000,
       once: true,
-      easing: "ease-out-cubic",
+      easing: "ease-out-cubic"
     });
   }
 
-  /* ----------------------------
-     NAV SCROLL SHADOW
-  ---------------------------- */
+  /* ==================================================
+     NAV SHADOW + SCROLL TO TOP
+  ================================================== */
   const nav = $(".nav");
-  if (nav) {
-    window.addEventListener("scroll", () => {
-      nav.style.boxShadow = window.scrollY > 30 ? "0 6px 20px rgba(0,0,0,0.25)" : "none";
-    });
-  }
+  const scrollTopBtn = $("#scrollTopBtn");
 
-  /* ----------------------------
-     SCROLL TO TOP BUTTON
-  ---------------------------- */
-  const scrollBtn = $("#scrollTopBtn");
-  if (scrollBtn) {
-    window.addEventListener("scroll", () => {
-      scrollBtn.classList.toggle("show", window.scrollY > 200);
-    });
+  window.addEventListener("scroll", () => {
+    if (nav) {
+      nav.style.boxShadow =
+        window.scrollY > 30 ? "0 6px 20px rgba(0,0,0,0.25)" : "none";
+    }
 
-    scrollBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }
+    if (scrollTopBtn) {
+      scrollTopBtn.classList.toggle("show", window.scrollY > 200);
+    }
+  });
 
-  /* ----------------------------
+  scrollTopBtn?.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  /* ==================================================
      RSVP CONFETTI
-  ---------------------------- */
-  const attendance = $("#attendance");
+  ================================================== */
   function launchRSVPConfetti() {
-    const pieces = 35;
-    for (let i = 0; i < pieces; i++) {
-      const conf = document.createElement("span");
+    for (let i = 0; i < 35; i++) {
+      const piece = document.createElement("span");
       const size = rand(6, 10);
 
-      conf.style.cssText = `
+      piece.style.cssText = `
         position: fixed;
         left: ${rand(0, 100)}vw;
         top: -10px;
         width: ${size}px;
         height: ${size}px;
         border-radius: 50%;
-        background-color: ${randomFrom(CONFETTI_COLORS)};
-        pointer-events: none;
+        background: ${pick(CONFETTI_COLORS)};
         z-index: 9999;
+        pointer-events: none;
       `;
 
-      conf.animate(
+      piece.animate(
         [
-          { transform: "translateY(0) rotate(0deg)", opacity: 1 },
-          { transform: `translateY(300px) rotate(${rand(180, 720)}deg)`, opacity: 0 },
+          { transform: "translateY(0) rotate(0)", opacity: 1 },
+          { transform: `translateY(300px) rotate(${rand(180, 720)}deg)`, opacity: 0 }
         ],
         { duration: 2200, easing: "ease-out", fill: "forwards" }
       );
 
-      setTimeout(() => conf.remove(), 2300);
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 2300);
     }
   }
 
-  /* ----------------------------
-     UNIVERSAL SAVE THE DATE BUTTON
-  ---------------------------- */
-  const saveBtn = document.getElementById("saveDateButton");
-  if (saveBtn) {
-    saveBtn.addEventListener("click", (e) => {
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  /* ==================================================
+     RSVP FORM SUBMISSION
+  ================================================== */
+  const rsvpForm = $(".rsvp-form");
 
-      if (!isMobile) {
-        // Desktop users: open Google Calendar
-        e.preventDefault();
-        window.open(
-          "https://www.google.com/calendar/render?action=TEMPLATE&text=Aldrin+&+Sharmaine+Wedding&dates=20270620T160000/20270620T200000&details=We+can’t+wait+to+celebrate+with+you!&location=Mary,+Mother+of+Good+Counsel+Parish+Church",
-          "_blank"
+  if (rsvpForm) {
+    rsvpForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const payload = new URLSearchParams({
+        name: rsvpForm.name.value,
+        attendance: rsvpForm.attendance.value,
+        message: rsvpForm.message.value
+      });
+
+      try {
+        const response = await fetch(
+          "https://script.google.com/macros/s/AKfycbyMtejkOuP4GFjI2ubPV3DEmubOiLoxrASm7nWUBS6fZv5FRqd2RbMm217IZwoGPV-7/exec",
+          { method: "POST", body: payload }
         );
+
+        const result = await response.json();
+
+        if (result.status === "success") {
+          rsvpForm.reset();
+          launchRSVPConfetti();
+          alert("RSVP submitted! 💜");
+        } else {
+          alert("Submission failed. Please try again.");
+        }
+      } catch (err) {
+        alert("Network error. Please try again later.");
       }
-      // Mobile users automatically download/open the .ics file
     });
   }
 
-  /* ----------------------------
-   RSVP FORM SUBMISSION
-   Sends data to Google Sheet via Apps Script
-   With animated success feedback
----------------------------- */
-const rsvpForm = document.querySelector(".rsvp-form");
-if (rsvpForm) {
-  rsvpForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const data = {
-      name: rsvpForm.querySelector('[name="name"]').value,
-      attendance: rsvpForm.querySelector('[name="attendance"]').value,
-      message: rsvpForm.querySelector('[name="message"]').value
-    };
-
-    try {
-      const res = await fetch(
-        "https://script.google.com/macros/s/AKfycbzhTmHU0p5HNx_ANrWSsxkM050_oY59RDS2xQwu__ZAATY5OVk6_bLQhL1Pa19CKynYJw/exec",
-        {
-          method: "POST",
-          body: new URLSearchParams(data)
-        }
-      );
-
-      const json = await res.json();
-      if (json.status === "success") {
-        // Reset the form
-        rsvpForm.reset();
-
-        // Launch RSVP confetti
-        launchRSVPConfetti();
-
-        // Create animated success popup
-        const popup = document.createElement("div");
-        popup.textContent = "RSVP submitted! 💜";
-        popup.style.cssText = `
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%) scale(0);
-          background-color: rgba(255,255,255,0.95);
-          color: #9b779d;
-          padding: 25px 40px;
-          border-radius: 16px;
-          font-size: 1.2rem;
-          font-weight: 700;
-          box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-          z-index: 10000;
-          text-align: center;
-          transition: transform 0.4s ease, opacity 0.4s ease;
-        `;
-        document.body.appendChild(popup);
-
-        // Animate in
-        requestAnimationFrame(() => {
-          popup.style.transform = "translate(-50%, -50%) scale(1)";
-        });
-
-        // Remove after 2 seconds
-        setTimeout(() => {
-          popup.style.transform = "translate(-50%, -50%) scale(0)";
-          popup.style.opacity = "0";
-          setTimeout(() => popup.remove(), 400);
-        }, 2000);
-      } else {
-        alert("Something went wrong. Please try again.");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Unable to submit RSVP. Please try again later.");
-    }
-  });
-}
-
-  /* ----------------------------
-     SETTINGS PANEL + BACKGROUND SWITCH
-  ---------------------------- */
+  /* ==================================================
+     SETTINGS PANEL (BACKGROUND + MUSIC)
+  ================================================== */
   const settingsToggle = $("#settingsToggle");
   const settingsPanel = $("#settingsPanel");
   const bgButtons = $$(".bg-options button");
+  const musicSelector = $("#musicSelector");
+
+  settingsToggle?.addEventListener("click", () => {
+    settingsPanel.style.display =
+      settingsPanel.style.display === "block" ? "none" : "block";
+  });
 
   const applyBackground = (file) => {
-    if (!file) return;
-    const url = encodeURI(`./assets/background/${file}`);
-    document.body.style.backgroundImage = `url("${url}")`;
-    localStorage.setItem("bodyBackground", file);
+    document.body.style.backgroundImage = `url("./assets/background/${file}")`;
+    localStorage.setItem("bg", file);
   };
-
-  if (settingsToggle && settingsPanel) {
-    settingsToggle.addEventListener("click", () => {
-      settingsPanel.style.display = settingsPanel.style.display === "block" ? "none" : "block";
-    });
-  }
 
   bgButtons.forEach(btn => {
     btn.addEventListener("click", () => applyBackground(btn.dataset.bg));
   });
 
-  // Load saved background
-  const savedBg = localStorage.getItem("bodyBackground");
+  const savedBg = localStorage.getItem("bg");
   if (savedBg) applyBackground(savedBg);
 
+  musicSelector?.addEventListener("change", () => {
+    bgMusic.src = musicSelector.value;
+    bgMusic.play();
+    musicToggle.textContent = "⏸";
+    localStorage.setItem("track", musicSelector.value);
+  });
 
-   
+  const savedTrack = localStorage.getItem("track");
+  if (savedTrack) {
+    bgMusic.src = savedTrack;
+    bgMusic.play();
+    musicToggle.textContent = "⏸";
+  }
 
+  /* ==================================================
+   GOOGLE DRIVE GALLERY SYSTEM (HD VIEWER POPUP)
+================================================== */
+
+const folders = {
+  church: "16BPBMPTwZwZgTI2tnNV1Tk1EKKB4wMyv",
+  prenup: "1ZoSsPSECRq062Bx4KAhKQUtnj24ePRAn",
+  reception: "1FqqNku0QNhGgWMJAiec6944SVjXeAZ4i"
+};
+
+const apiKey = "AIzaSyBgEstYNO3_dKI4mC1KdsPRpx_p2gpDsXQ";
+
+const sectionMap = {
+  church: "church-gallery",
+  prenup: "prenup-gallery",
+  reception: "reception-gallery"
+};
+
+const PHOTOS_PER_PAGE = 9;
+const PLACEHOLDER =
+  "https://via.placeholder.com/400x400/c0c0c0/ffffff?text=Upload+Here";
+
+/* ================= FETCH FROM DRIVE ================= */
+async function fetchImages(folderId) {
+  const url =
+    `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+mimeType contains 'image/'` +
+    `&fields=files(id,name,thumbnailLink)&key=${apiKey}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.files || [];
+  } catch (err) {
+    console.error("Drive fetch error:", err);
+    return [];
+  }
+}
+
+/* ================= PAGINATION ================= */
+function paginate(files) {
+  const pages = [];
+  for (let i = 0; i < files.length; i += PHOTOS_PER_PAGE) {
+    const slice = files.slice(i, i + PHOTOS_PER_PAGE);
+    while (slice.length < PHOTOS_PER_PAGE) {
+      slice.push({ name: "Placeholder", thumbnailLink: PLACEHOLDER });
+    }
+    pages.push(slice);
+  }
+  return pages;
+}
+
+/* ================= LOAD EACH GALLERY ================= */
+async function loadGallery(key) {
+  const section = document.getElementById(sectionMap[key]);
+  if (!section) return;
+
+  const files = await fetchImages(folders[key]);
+  const pages = paginate(files);
+  let currentPage = 0;
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "gallery-wrapper";
+  section.appendChild(wrapper);
+
+  function renderPage() {
+    wrapper.innerHTML = "";
+
+    pages[currentPage].forEach(file => {
+      const fig = document.createElement("figure");
+      fig.dataset.id = file.id || "";
+      fig.dataset.name = file.name || "Photo";
+
+      fig.innerHTML = `
+        <img src="${file.thumbnailLink || PLACEHOLDER}" loading="lazy">
+        <figcaption>${file.name || "Placeholder"}</figcaption>
+      `;
+
+      wrapper.appendChild(fig);
+    });
+  }
+
+  renderPage();
+
+  if (pages.length > 1) {
+    const pagination = document.createElement("div");
+    pagination.className = "pagination";
+
+    const prev = document.createElement("button");
+    prev.textContent = "Prev";
+    prev.onclick = () => {
+      currentPage = (currentPage - 1 + pages.length) % pages.length;
+      renderPage();
+    };
+
+    const next = document.createElement("button");
+    next.textContent = "Next";
+    next.onclick = () => {
+      currentPage = (currentPage + 1) % pages.length;
+      renderPage();
+    };
+
+    pagination.append(prev, next);
+    section.appendChild(pagination);
+  }
+}
+
+/* ================= DRIVE HD POPUP (UPDATED SLIDE + CLOSE) ================= */
+let currentGallery = [];
+let currentIndex = 0;
+
+// Open popup with current image and gallery array
+function openDrivePreview(fileId, title, galleryArray) {
+  currentGallery = galleryArray;
+  currentIndex = galleryArray.findIndex(f => f.id === fileId);
+
+  const popup = document.getElementById("drivePopup");
+  const frame = document.getElementById("driveFrame");
+  const caption = document.getElementById("driveCaption");
+
+  frame.src = `https://drive.google.com/file/d/${fileId}/preview`;
+  caption.textContent = title;
+  popup.style.display = "flex";
+}
+
+// Close popup
+function closeDrivePreview() {
+  const popup = document.getElementById("drivePopup");
+  const frame = document.getElementById("driveFrame");
+
+  frame.src = "";
+  popup.style.display = "none";
+}
+
+// Show next image
+function showNext() {
+  if (!currentGallery.length) return;
+  currentIndex = (currentIndex + 1) % currentGallery.length;
+  const next = currentGallery[currentIndex];
+  document.getElementById("driveFrame").src = `https://drive.google.com/file/d/${next.id}/preview`;
+  document.getElementById("driveCaption").textContent = next.name;
+}
+
+// Show previous image
+function showPrev() {
+  if (!currentGallery.length) return;
+  currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+  const prev = currentGallery[currentIndex];
+  document.getElementById("driveFrame").src = `https://drive.google.com/file/d/${prev.id}/preview`;
+  document.getElementById("driveCaption").textContent = prev.name;
+}
+
+/* ================= POPUP CLICK & KEYBOARD ================= */
+const drivePopup = document.getElementById("drivePopup");
+const driveClose = document.querySelector(".drive-close");
+const driveNext = document.querySelector(".drive-next");
+const drivePrev = document.querySelector(".drive-prev");
+
+// Close button
+driveClose?.addEventListener("click", closeDrivePreview);
+
+// Prev/Next buttons
+driveNext?.addEventListener("click", showNext);
+drivePrev?.addEventListener("click", showPrev);
+
+// Click outside iframe to close
+drivePopup?.addEventListener("click", (e) => {
+  if (e.target.id === "drivePopup") closeDrivePreview();
+});
+
+// Keyboard support
+document.addEventListener("keydown", (e) => {
+  if (drivePopup.style.display === "flex") {
+    if (e.key === "Escape") closeDrivePreview();
+    if (e.key === "ArrowRight") showNext();
+    if (e.key === "ArrowLeft") showPrev();
+  }
+});
+
+/* ================= MODIFY GLOBAL CLICK TO PASS GALLERY ================= */
+document.addEventListener("click", (e) => {
+  const fig = e.target.closest(".gallery-wrapper figure");
+  if (!fig) return;
+
+  const galleryWrapper = fig.closest(".gallery-wrapper");
+  const figures = Array.from(galleryWrapper.querySelectorAll("figure"));
+  const galleryArray = figures.map(f => ({ id: f.dataset.id, name: f.dataset.name }));
+
+  openDrivePreview(fig.dataset.id, fig.dataset.name, galleryArray);
 });
 
 
+/* ================= INIT ALL GALLERIES ================= */
+Object.keys(folders).forEach(loadGallery);
 
+});
