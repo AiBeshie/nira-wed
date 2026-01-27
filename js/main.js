@@ -473,3 +473,19 @@ driveDownload?.addEventListener("click", () => {
 Object.keys(folders).forEach(loadGallery);
 
 });
+// Show popup
+function openDrivePopup() {
+  const popup = document.querySelector('.drive-popup');
+  popup.style.display = 'flex';
+  document.body.classList.add('popup-open'); // locks scroll
+}
+
+// Hide popup
+function closeDrivePopup() {
+  const popup = document.querySelector('.drive-popup');
+  popup.style.display = 'none';
+  document.body.classList.remove('popup-open'); // restore scroll
+}
+
+// Example triggers
+document.querySelector('.drive-close').addEventListener('click', closeDrivePopup);
