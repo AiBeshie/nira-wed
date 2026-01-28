@@ -104,7 +104,7 @@
   <!-- =========================
        STORY
   ========================= -->
-  <section id="story" class="section" data-aos="fade-up">
+  <section id="story" class="section" "  data-aos="fade-up">
     <h2 class="section__title">Our Story</h2>
     <p class="section__text">
       Our journey together began with love, laughter, and countless shared memories.
@@ -210,14 +210,58 @@
       Your love and prayers mean the world to us.
     </p>
   </section>
-<div id="drivePopup" class="drive-popup">
-  <button class="drive-close">✕</button>
-  <button class="drive-prev">‹</button>
-  <button class="drive-next">›</button>
-  <button class="drive-download">⬇</button> <!-- NEW DOWNLOAD BUTTON -->
 
+
+<div id="drivePopup" class="drive-popup">
+
+  <!-- CLOSE & NAVIGATION BUTTONS -->
+  <button class="drive-close" title="Close">✕</button>
+  <button class="drive-prev" title="Previous">‹</button>
+  <button class="drive-next" title="Next">›</button>
+
+  <!-- DOWNLOAD BUTTON -->
+  <button id="driveDownload" class="drive-download" title="Download">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor">
+      <path d="M5 20h14v-2H5v2zm7-18v12l4-4h-3V4h-2v6H8l4 4z"/>
+    </svg>
+  </button>
+
+  <!-- SHARE BUTTON -->
+  <button id="driveShare" class="drive-share" title="Share">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor">
+      <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7a3.12 3.12 0 000-1.41l7.05-4.11A2.99 2.99 0 1015 5a2.99 2.99 0 001.96.77c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .26.04.51.1.75L8.91 9.91a3.001 3.001 0 00-3.82 0c-.41.39-.66.93-.66 1.5s.25 1.11.66 1.5a3 3 0 003.82 0l7.14 4.15c-.06.23-.1.48-.1.73 0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3z"/>
+    </svg>
+  </button>
+
+  <!-- SHARE OPTIONS POPUP -->
+  <div id="sharePopup" class="share-popup">
+    <a href="#" class="share-facebook" target="_blank">Facebook</a>
+    <a href="#" class="share-twitter" target="_blank">Twitter</a>
+    <a href="#" class="share-tiktok" target="_blank">TikTok</a>
+    <a href="#" class="share-instagram" target="_blank">Instagram</a>
+  </div>
+
+  <!-- IMAGE FRAME & CAPTION -->
   <iframe id="driveFrame"></iframe>
   <div id="driveCaption"></div>
+
+</div>
+
+
+
+<div id="settingsPanel" class="settings-panel">
+  <h3>Choose Background</h3>
+  <div class="bg-options">
+    <button data-bg="bg1.jpeg">BG 1</button>
+    <button data-bg="bg2.png">BG 2</button>
+    <button data-bg="bg3.jpg">BG 3</button>
+    <button data-bg="bg4.jpg">BG 4</button>
+    <button data-bg="bg5.jpg">BG 5</button>
+    <button data-bg="bg6.jpg">BG 6</button>
+    <button data-bg="bg7.jpg">BG 7</button>
+    <button data-bg="bg8.jpg">BG 8</button>
+    <button data-bg="bg9.png">BG 9</button>
+  </div>
 </div>
 
 
