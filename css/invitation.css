@@ -69,42 +69,44 @@ button { cursor: pointer; border: none; }
   z-index: 1000;
 }
 
-/* Hero Section Wrapper - full screen */
+/* ==================================================
+   HERO SECTION
+================================================== */
 #hero {
   position: relative;
   width: 100vw;
-  height: 100vh; /* Full viewport height */
+  height: 100vh;
   overflow: hidden;
 }
 
-/* Video as full screen background, always covers viewport */
+/* Fullscreen video background */
 .hero__video {
   position: absolute;
-  top: 0;
+  top: 30px; /* dati 0, ngayon may 40px space sa top */
   left: 0;
   width: 100vw;
-  height: 100vh;
-  object-fit: cover; /* maintain aspect ratio while covering screen */
+  height: calc(100vh - 40px); /* height i-adjust para hindi lumampas sa screen */
+  object-fit: cover;
   z-index: 0;
 }
 
-/* Countdown overlay - horizontal at 10% from top */
+
+/* Countdown container */
 .hero__countdown-multi {
   position: absolute;
-  top: 10%; /* 10% from top */
+  top: max(10%, 80px);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  flex-direction: row; /* palaging horizontal */
+  flex-direction: row;
   gap: 20px;
   justify-content: center;
-  flex-wrap: nowrap; /* huwag bumagsak sa next line */
+  flex-wrap: nowrap;
   z-index: 2;
   pointer-events: auto;
 }
 
-
-/* Countdown box */
+/* Countdown boxes */
 .countdown-box {
   text-align: center;
   background: rgba(50, 20, 70, 0.85);
@@ -135,10 +137,10 @@ button { cursor: pointer; border: none; }
   margin-top: 5px;
 }
 
-/* Hero button overlay - near bottom (85% from top) */
+/* Hero buttons */
 .hero-buttons {
   position: absolute;
-  top: 85%; 
+  top: 85%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
@@ -148,17 +150,16 @@ button { cursor: pointer; border: none; }
 .hero-buttons button {
   padding: clamp(14px, 2.5vw, 22px) clamp(28px, 4vw, 50px);
   font-size: clamp(1rem, 1.5vw, 1.4rem);
-  border-radius: 50px;
+  border-radius: var(--radius-pill);
   font-weight: bold;
   color: #fff;
-  background: linear-gradient(135deg, #9b779d, #1d274b);
-  cursor: pointer;
+  background: linear-gradient(135deg, var(--clr-secondary), var(--clr-primary));
   transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .hero-buttons button:hover {
   transform: scale(1.05);
-  background: #c9907c;
+  background: var(--clr-accent);
 }
 
 /* Confetti overlay */
@@ -175,12 +176,15 @@ button { cursor: pointer; border: none; }
 @media (max-width: 1024px) {
   .countdown-number { font-size: 50px; }
   .countdown-label { font-size: 18px; }
+  .hero-logo { max-width: 250px; }
 }
 
 @media (max-width: 768px) {
   .countdown-number { font-size: 40px; }
   .countdown-label { font-size: 16px; }
+  .hero-logo { max-width: 220px; }
   .hero__countdown-multi { gap: 15px; }
+  .hero-buttons button { padding: 12px 28px; font-size: 1rem; }
 }
 
 @media (max-width: 480px) {
@@ -189,11 +193,10 @@ button { cursor: pointer; border: none; }
   .countdown-box { padding: 14px 18px; min-width: 70px; }
   .hero-buttons button { padding: 12px 24px; font-size: 0.9rem; }
   .hero__countdown-multi {
-    flex-direction: row; /* ensure horizontal on mobile */
     gap: 10px;
+    margin-bottom: 20px;
   }
 }
-
 
 /* ==================================================
    ANIMATIONS
@@ -206,33 +209,4 @@ button { cursor: pointer; border: none; }
 @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
-}
-
-/* ==================================================
-   RESPONSIVE
-================================================== */
-@media (max-width: 1024px) {
-  .hero-content p { font-size: 2rem; }
-  .countdown-number { font-size: 50px; }
-  .countdown-label { font-size: 18px; }
-  .hero-logo { max-width: 250px; }
-}
-
-@media (max-width: 768px) {
-  .hero-content p { font-size: 1.8rem; }
-  .countdown-number { font-size: 40px; }
-  .countdown-label { font-size: 16px; }
-  .hero-logo { max-width: 220px; }
-  .hero__countdown-multi { gap: 15px; }
-}
-
-@media (max-width: 480px) {
-  .hero-content p { font-size: 1.5rem; }
-  .countdown-box { padding: 18px 25px; }
-  .hero-buttons button { padding: 12px 28px; font-size: 0.9rem; }
-  .hero__countdown-multi {
-    flex-direction: row; /* force horizontal */
-    gap: 10px;
-    margin-bottom: 20px;
-  }
 }
